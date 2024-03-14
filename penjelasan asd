@@ -1,0 +1,66 @@
+PENJELASAN
+#include <stdio.h> //untuk library input output
+#include <stdlib.h>//untuk file header
+#include <string.h>//untuk library string
+#define MAX_LENGTH 2024
+#define MIN_LENGTH 16
+membuat 2 konstanta dalam program untuk menentukan Panjang minimum dan maximum,seperti Panjang maksimum array,atau Panjang maksimum string.
+void lessThanRequired(int* lengthOfText) 
+suatu fungsi yang bernama lessThanRequired,fungsi ini tidak mengembalikan nilai apapun.
+(int* lengthOfText) 
+Ini adalah parameter fungsi ,fungsi menerima satu parameter yang bertipe pointer ke integer
+printf("The length of your text is less than specified, please update your text\n")
+mencetak pesan ("The length of your text is less than specified, please update your text\n")
+*lengthOfText = MIN_LENGTH;
+Mengganti nilai yang disimpan pada alamat yang di tunjuk pointer *lenghtOfText dengan nilai 16 yaitu min length
+void equalThanRequired()
+fungsi ini tidak mengembalikan nilai dan tidak memiliki parameter
+printf("Thank you, Your text length is correct\n");
+cetak pesan ("Thank you, Your text length is correct\n");
+
+void moreThanRequired(int* lengthOfText) {  //untuk memotong teks apabila panjangnya melebihi batas maksimum
+  printf("Your text is too long, please reduce the text\n");
+ *lengthOfText = MIN_LENGTH; //menetapkan panjang minimum yang diperlukan untuk teks yang diterima oleh fungsi.
+int checkLengthRequirement(char* text) { //fungsi ini mengembalikan nilai bertipe integer,char*text suatu fungsi yang bisa menerima sebuah string(array karakter),bertipe pointer ke karakter
+int length = strlen(text);//variable length menginisialisasinya dengan panjang teks yang diterima sebagai argumen menggunakan fungsi strlen(), yang menghitung jumlah karakter dalam string.
+if (length < MIN_LENGTH) //memeriksa kondisi apakah Panjang teks kurang dari MIN_LENGTH jika benar maka fungsi mengembalikan 0,menunjukkan bahwa teks tidak memenuhi syarat minimum
+ return 0;//
+ else if (length == MIN_LENGTH)//kondisi kedua memeriksa apakah panjang teks sama dengan min_length jika benar maka fungsi mengembalikkan satu,yang menunjukkan bahwa tekst sudah tepat.
+ return 1;
+  else
+  return 2;//menunjukkan bahwa teks melebihi syarat minimum yang di tentukan
+int main() {
+ int lengthOfText, selectOption; 
+variable betipe data integer
+ FILE *fptr = NULL;
+Sebuah pointer ke objek file,yang digunakanuntuk menunjukkan file yang akan di buka
+ char text[MAX_LENGTH];
+  fptr = fopen("aaa.txt", "r");
+untuk membuka file Bernama aaa.txt dalam mode baca r
+  if (fptr == NULL) {
+  printf("Error");
+untuk memeriksa apakah file bisa dibuka atau tidak,jika yang muncul adalah error maka terjadi keslahan,dan program akan keluar dengan status keluar 1 mengunnakan exit(1)
+   exit(1);
+    }
+
+fgets(text, MAX_LENGTH, fptr);
+membaca string dari file yang telah dibuka dan menyimpanya pada array text
+fungsi fgets untuk membaca maksimal dari max_length atau sampai menemukan baris baru atau akhir file
+
+    fclose(fptr); //menutup file yang telah dibuka
+
+    selectOption = checkLengthRequirement(text);
+memanggil fungsi checkLengthRequirement dengan parameter text,lalu disimpaan di variable selectOption,fungsi checkLengthRequirement untuk menentukan apakah Panjang text memenuhi syarat
+
+    void (*functionPtrs[3])(int *) = {lessThanRequired, equalThanRequired, moreThanRequired};
+Ini adalah deklarasi dari sebuah array yang berisi tiga pointer ke fungsi. Fungsi-fungsi ini telah dideklarasikan sebelumnya sebagai lessThanRequired, equalThanRequired, dan moreThanRequired. Pointer ke fungsi-fungsi ini disimpan dalam array functionPtrs.
+    functionPtrs[selectOption](&lengthOfText);
+memanggil slah satu dari kedua fungsi tersebut berdasarkan nilai yang di tentukan oleh selectOption
+
+    printf("Length Before: %d\n", strlen(text));
+Pernyataan ini mencetak panjang string yang dibaca sebelumnya menggunakan fungsi strlen()
+    printf("The Length is updated to %d\n", lengthOfText);
+Pernyataan ini mencetak panjang yang baru diperbarui, yang telah diubah oleh fungsi yang dipanggil sebelumnya.
+
+    return 0;
+menandakan program selesai dijalankan
